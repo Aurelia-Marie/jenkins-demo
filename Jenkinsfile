@@ -1,18 +1,15 @@
 pipeline {
     agent any
-
-    environment {
-        DISABLE_AUTH = 'true'
-        DB_ENGINE    = 'sqlite'
-    }
-
     stages {
-        stage('Build') {
+        stage('Test') {
             steps {
-                echo "Database engine is ${DB_ENGINE}"
-                echo "DISABLE_AUTH is ${DISABLE_AUTH}"
-                bat 'set'
+                bat 'docker run --rm -v "%WORKSPACE%":/project -w /project gradle:jdk21 gradle check'
             }
+        }
+    }
+    post {
+        always {
+            junit 'build/test-results/**/*.xml'
         }
     }
 }
