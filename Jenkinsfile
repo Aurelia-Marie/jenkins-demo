@@ -3,8 +3,10 @@ pipeline {
     stages {
         stage('Deploy') {
             steps {
-                retry(3) {
-                    bat 'exit /b 1'
+                timeout(time: 3, unit: 'MINUTES') {
+                    retry(5) {
+                        bat 'ping -n 30 127.0.0.1 > nul'
+                    }
                 }
             }
         }
