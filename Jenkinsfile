@@ -1,11 +1,10 @@
-
-/* Requires the Docker Pipeline plugin */
+/* Adapté pour Jenkins sous Windows */
 pipeline {
-    agent { docker { image 'maven:3.10.0-eclipse-temurin-21-alpine' } }
+    agent any
     stages {
         stage('build') {
             steps {
-                sh 'mvn --version'
+                bat 'docker run --rm maven:3.10.0-eclipse-temurin-21-alpine mvn --version'
             }
         }
     }
