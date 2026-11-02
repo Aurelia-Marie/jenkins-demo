@@ -1,9 +1,11 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Deploy') {
             steps {
-                bat 'set'
+                retry(3) {
+                    bat 'exit /b 1'
+                }
             }
         }
     }
