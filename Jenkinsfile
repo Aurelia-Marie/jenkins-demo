@@ -1,22 +1,28 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('No-op') {
             steps {
-                bat 'docker run --rm -v "%WORKSPACE%":/project -w /project gradle:jdk21 gradle build'
-            }
-        }
-        stage('Test') {
-            steps {
-                bat 'docker run --rm -v "%WORKSPACE%":/project -w /project gradle:jdk21 gradle check'
+                bat 'dir'
             }
         }
     }
-
     post {
         always {
-            archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
-            junit 'build/test-results/**/*.xml'
+            echo 'One way or another, I have finished'
+            deleteDir() /* clean up our workspace */
+        }
+        success {
+            echo 'I succeeded!'
+        }
+        unstable {
+            echo 'I am unstable :/'
+        }
+        failure {
+            echo 'I failed :('
+        }
+        changed {
+            echo 'Things were different before...'
         }
     }
 }
