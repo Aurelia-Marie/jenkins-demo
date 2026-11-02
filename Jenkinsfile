@@ -1,10 +1,10 @@
-/* Adapté pour Jenkins sous Windows */
+Jenkinsfile (Declarative Pipeline)
 pipeline {
     agent any
     stages {
-        stage('build') {
+        stage('Build') {
             steps {
-                bat 'docker run --rm maven:3.10.0-eclipse-temurin-21-alpine mvn --version'
+                bat 'set'
             }
         }
     }
