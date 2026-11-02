@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('No-op') {
             steps {
-                bat 'dir'
+                bat 'exit /b 1'
             }
         }
     }
@@ -12,17 +12,11 @@ pipeline {
             echo 'One way or another, I have finished'
             deleteDir() /* clean up our workspace */
         }
-        success {
-            echo 'I succeeded!'
-        }
-        unstable {
-            echo 'I am unstable :/'
-        }
         failure {
             echo 'I failed :('
-        }
-        changed {
-            echo 'Things were different before...'
+            mail to: 'aureliaforson31@gmail.com',
+                 subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                 body: "Something is wrong with ${env.BUILD_URL}"
         }
     }
 }
